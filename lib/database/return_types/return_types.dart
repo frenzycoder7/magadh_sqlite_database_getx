@@ -10,3 +10,25 @@ class DataInsertionResponse {
     this.message,
   });
 }
+
+class DataUpdateResponse {
+  final String? message;
+  final bool isError;
+  final Map<String, dynamic>? failedData;
+  DataUpdateResponse({
+    this.message,
+    required this.isError,
+    this.failedData,
+  });
+}
+
+class DataDeleteResponse {
+  final String? message;
+  final bool isError;
+  final Map<String, dynamic>? failedData;
+  DataDeleteResponse({
+    this.message,
+    required this.isError,
+    this.failedData,
+  });
+}

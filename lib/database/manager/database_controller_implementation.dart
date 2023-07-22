@@ -57,5 +57,50 @@ class DatabaseControllerImplementation implements DatabaseController {
   }
 
   @override
-  Function(String, {List<String>? columns, bool? distinct, String? groupBy, String? having, int? limit, int? offset, String? orderBy, String? where, List<Object?>? whereArgs}) get query => db.query;
+  Function(String,
+      {List<String>? columns,
+      bool? distinct,
+      String? groupBy,
+      String? having,
+      int? limit,
+      int? offset,
+      String? orderBy,
+      String? where,
+      List<Object?>? whereArgs}) get query => db.query;
+
+  @override
+  Future<int> update(
+    String tableName,
+    Map<String, dynamic> json, {
+    String? where,
+    List<Object?>? whereArgs,
+  }) {
+    if (isOpen.isFalse) {
+      "Database is not open".log();
+      throw DatabaseConnectionException(
+          "Database is not open or not initialized");
+    }
+    try {
+      return db.update(tableName, json, where: where, whereArgs: whereArgs);
+    } catch (e) {
+      "Error while updating data: $e".log();
+      throw UpdateException("Error while updating data in $tableName");
+    }
+  }
+
+  @override
+  Future<int> delete(String tableName,
+      {String? where, List<Object?>? whereArgs}) {
+    if (isOpen.isFalse) {
+      "Database is not open".log();
+      throw DatabaseConnectionException(
+          "Database is not open or not initialized");
+    }
+    try {
+      return db.delete(tableName, where: where, whereArgs: whereArgs);
+    } catch (e) {
+      "Error while deleting data: $e".log();
+      throw DataDeleteException("Error while deleting data in $tableName");
+    }
+  }
 }

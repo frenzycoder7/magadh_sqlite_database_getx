@@ -19,4 +19,18 @@ abstract class DatabaseService {
     String? where,
     List<Object?>? whereArgs,
   }) query();
+
+  Future<DataUpdateResponse> update(
+    String tableName,
+    Map<String, dynamic>json, {
+    String? where,
+    List<Object?>? whereArgs,
+  });
+
+
+  Future<DataDeleteResponse> delete(
+    String tableName, {
+    String? where,
+    List<Object?>? whereArgs,
+  });
 }

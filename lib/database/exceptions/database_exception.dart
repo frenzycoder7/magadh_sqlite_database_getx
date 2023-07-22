@@ -21,3 +21,9 @@ class RecordsNotFound implements Exception {
 
   RecordsNotFound(this.message);
 }
+
+class DataDeleteException implements Exception {
+  final String message;
+
+  DataDeleteException(this.message);
+}

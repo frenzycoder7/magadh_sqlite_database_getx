@@ -10,7 +10,8 @@ class DatabaseServiceImpl implements DatabaseService {
   late DatabaseController _controller;
   final String databasePath;
 
-  DatabaseServiceImpl({required this.databasePath, required List<String> queries}) {
+  DatabaseServiceImpl(
+      {required this.databasePath, required List<String> queries}) {
     "Implementing Database Service".log();
     "DATABASE PATH: $databasePath".log();
     _controller = Get.put(DatabaseControllerImplementation());
@@ -51,7 +52,73 @@ class DatabaseServiceImpl implements DatabaseService {
           : "Data inserted successfully",
     );
   }
-  
+
   @override
-  Function(String p1, {List<String>? columns, bool? distinct, String? groupBy, String? having, int? limit, int? offset, String? orderBy, String? where, List<Object?>? whereArgs}) query() => _controller.query; 
+  Function(
+    String p1, {
+    List<String>? columns,
+    bool? distinct,
+    String? groupBy,
+    String? having,
+    int? limit,
+    int? offset,
+    String? orderBy,
+    String? where,
+    List<Object?>? whereArgs,
+  }) query() => _controller.query;
+
+  @override
+  Future<DataUpdateResponse> update(
+    String tableName,
+    Map<String, dynamic> json, {
+    String? where,
+    List<Object?>? whereArgs,
+  }) async {
+    try {
+      int id = await _controller.update(tableName, json,
+          where: where, whereArgs: whereArgs);
+      "Data updated with id: $id".log();
+      return DataUpdateResponse(
+        isError: false,
+        message: "Data updated successfully",
+      );
+    } on UpdateException catch (e) {
+      "Error while updating data: $e".log();
+      return DataUpdateResponse(
+        isError: true,
+        message: "Error while updating data",
+        failedData: json,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<DataDeleteResponse> delete(
+    String tableName, {
+    String? where,
+    List<Object?>? whereArgs,
+  }) async {
+    try {
+      int id = await _controller.delete(tableName,
+          where: where, whereArgs: whereArgs);
+      "Data deleted with id: $id".log();
+      return DataDeleteResponse(
+        isError: false,
+        message: "Data deleted successfully",
+      );
+    } on DataDeleteException catch (e) {
+      "Error while deleting data: $e".log();
+      return DataDeleteResponse(
+        isError: true,
+        message: "Error while deleting data",
+        failedData: {
+          "id": whereArgs?.first,
+        },
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

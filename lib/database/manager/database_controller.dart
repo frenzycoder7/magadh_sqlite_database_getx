@@ -14,4 +14,9 @@ abstract class DatabaseController {
     String? where,
     List<Object?>? whereArgs,
   }) get query;
+
+  Future<int> update(String tableName, Map<String, dynamic> json,
+      {String? where, List<Object?>? whereArgs});
+  
+  Future<int> delete(String tableName, {String? where, List<Object?>? whereArgs});
 }
