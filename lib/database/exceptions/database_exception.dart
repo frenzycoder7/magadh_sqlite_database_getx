@@ -15,3 +15,9 @@ class UpdateException implements Exception {
 
   UpdateException(this.message);
 }
+
+class RecordsNotFound implements Exception {
+  final String message;
+
+  RecordsNotFound(this.message);
+}
