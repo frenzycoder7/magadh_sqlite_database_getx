@@ -1,11 +1,11 @@
 library magadh_sqlite_database_getx;
 
 import 'package:get/get.dart';
+import 'package:magadh_sqlite_database_getx/database/database_service.dart';
 import 'package:magadh_sqlite_database_getx/database/database_service_impl.dart';
 import 'package:sqflite/sqflite.dart';
 
 export './database/return_types/return_types.dart';
-export './database/database_service.dart';
 export './database/manager/datatypes.dart';
 export './database/exceptions/database_exception.dart';
 
@@ -21,3 +21,5 @@ Future<void> initilizeDatabase({
   String path = "$databasePath/$databaseName.db";
   Get.put(DatabaseServiceImpl(databasePath: path, queries: queries));
 }
+
+DatabaseService get databaseService => Get.find<DatabaseServiceImpl>();
