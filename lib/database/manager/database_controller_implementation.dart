@@ -16,7 +16,6 @@ class DatabaseControllerImplementation implements DatabaseController {
     required String databasePath,
   }) async {
     "Opening Database".log();
-    await deleteDatabase(databasePath);
     try {
       db = await openDatabase(
         databasePath,
